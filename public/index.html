@@ -3238,6 +3238,7 @@
             // Move enemies
             state.enemies.forEach(e => {
                 // Store trail
+                if (!e.trail) e.trail = [];
                 if (e.trail.length > 8) e.trail.shift();
                 e.trail.push({ x: e.x, y: e.y });
 
