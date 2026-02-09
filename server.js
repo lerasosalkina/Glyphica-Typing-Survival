@@ -7,19 +7,48 @@ const fs = require('fs');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Data storage paths
-const DATA_DIR = path.join(__dirname, 'data');
+// Data storage paths - use /tmp for serverless platforms, or local data folder
+let DATA_DIR;
+let useFileStorage = true;
+
+// Try to find a writable directory
+const possibleDirs = [
+    path.join(__dirname, 'data'),
+    '/tmp/glyphica-data',
+    process.env.TEMP ? path.join(process.env.TEMP, 'glyphica-data') : null
+].filter(Boolean);
+
+for (const dir of possibleDirs) {
+    try {
+        if (!fs.existsSync(dir)) {
+            fs.mkdirSync(dir, { recursive: true });
+        }
+        // Test write access
+        const testFile = path.join(dir, '.test');
+        fs.writeFileSync(testFile, 'test');
+        fs.unlinkSync(testFile);
+        DATA_DIR = dir;
+        console.log(`Using data directory: ${DATA_DIR}`);
+        break;
+    } catch (err) {
+        console.log(`Cannot use ${dir}: ${err.message}`);
+    }
+}
+
+// If no writable directory found, use in-memory storage only
+if (!DATA_DIR) {
+    console.log('No writable directory found, using in-memory storage only');
+    useFileStorage = false;
+    DATA_DIR = '/tmp'; // dummy path
+}
+
 const USERS_FILE = path.join(DATA_DIR, 'users.json');
 const GAMES_FILE = path.join(DATA_DIR, 'games.json');
 const ACHIEVEMENTS_FILE = path.join(DATA_DIR, 'achievements.json');
 
-// Ensure data directory exists
-if (!fs.existsSync(DATA_DIR)) {
-    fs.mkdirSync(DATA_DIR, { recursive: true });
-}
-
 // Load data from JSON files
 function loadData(filePath, defaultValue = []) {
+    if (!useFileStorage) return defaultValue;
     try {
         if (fs.existsSync(filePath)) {
             const data = fs.readFileSync(filePath, 'utf8');
@@ -33,6 +62,7 @@ function loadData(filePath, defaultValue = []) {
 
 // Save data to JSON file
 function saveData(filePath, data) {
+    if (!useFileStorage) return; // In-memory only mode
     try {
         fs.writeFileSync(filePath, JSON.stringify(data, null, 2), 'utf8');
     } catch (err) {
