@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Glyphica - Профиль</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --bg-dark: #0a0a0f;
+            --bg-card: rgba(15, 15, 25, 0.95);
+            --accent-cyan: #00f3ff;
+            --accent-pink: #ff2d92;
+            --accent-purple: #bc13fe;
+            --text-primary: #ffffff;
+            --text-secondary: rgba(255, 255, 255, 0.6);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Rajdhani', sans-serif;
+            background: var(--bg-dark);
+            min-height: 100vh;
+            color: var(--text-primary);
+            background-image:
+                radial-gradient(ellipse at 20% 80%, rgba(188, 19, 254, 0.08) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 20%, rgba(0, 243, 255, 0.08) 0%, transparent 50%);
+        }
+
+        /* Navigation */
+        .navbar {
+            background: var(--bg-card);
+            border-bottom: 1px solid rgba(0, 243, 255, 0.2);
+            padding: 16px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(20px);
+        }
+
+        .nav-logo {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 24px;
+            font-weight: 900;
+            background: linear-gradient(135deg, var(--accent-cyan), var(--accent-pink));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+        }
+
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: 600;
+            transition: color 0.3s;
+            letter-spacing: 1px;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: var(--accent-cyan);
+        }
+
+        .nav-user {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .nav-username {
+            color: var(--accent-cyan);
+            font-weight: 600;
+        }
+
+        .logout-btn {
+            background: transparent;
+            border: 1px solid var(--accent-pink);
+            color: var(--accent-pink);
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-family: inherit;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .logout-btn:hover {
+            background: var(--accent-pink);
+            color: var(--bg-dark);
+        }
+
+        /* Main content */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .profile-header {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .avatar {
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(135deg, var(--accent-cyan), var(--accent-purple));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 36px;
+            font-weight: 900;
+            color: var(--bg-dark);
+        }
+
+        .profile-info h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 32px;
+            margin-bottom: 8px;
+        }
+
+        .profile-info p {
+            color: var(--text-secondary);
+        }
+
+        /* Stats grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .stat-card {
+            background: var(--bg-card);
+            border: 1px solid rgba(0, 243, 255, 0.1);
+            border-radius: 12px;
+            padding: 24px;
+            text-align: center;
+            transition: all 0.3s;
+        }
+
+        .stat-card:hover {
+            border-color: var(--accent-cyan);
+            transform: translateY(-4px);
+        }
+
+        .stat-value {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 32px;
+            font-weight: 900;
+            background: linear-gradient(135deg, var(--accent-cyan), var(--accent-pink));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .stat-label {
+            color: var(--text-secondary);
+            font-size: 14px;
+            margin-top: 8px;
+            letter-spacing: 1px;
+        }
+
+        /* Recent games */
+        .section-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 20px;
+            margin-bottom: 20px;
+            color: var(--accent-cyan);
+            letter-spacing: 2px;
+        }
+
+        .games-table {
+            background: var(--bg-card);
+            border: 1px solid rgba(0, 243, 255, 0.1);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th {
+            background: rgba(0, 243, 255, 0.1);
+            padding: 16px;
+            text-align: left;
+            font-weight: 600;
+            color: var(--accent-cyan);
+            letter-spacing: 1px;
+            font-size: 14px;
+        }
+
+        td {
+            padding: 16px;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        tr:hover td {
+            background: rgba(0, 243, 255, 0.02);
+        }
+
+        .mode-badge {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .mode-classic {
+            background: rgba(0, 243, 255, 0.2);
+            color: var(--accent-cyan);
+        }
+
+        .mode-time {
+            background: rgba(255, 45, 146, 0.2);
+            color: var(--accent-pink);
+        }
+
+        .mode-zen {
+            background: rgba(52, 199, 89, 0.2);
+            color: #34C759;
+        }
+
+        .mode-hardcore {
+            background: rgba(255, 100, 100, 0.2);
+            color: #ff6464;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 60px;
+            color: var(--text-secondary);
+        }
+
+        .loading-spinner {
+            width: 50px;
+            height: 50px;
+            border: 3px solid rgba(0, 243, 255, 0.2);
+            border-top-color: var(--accent-cyan);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 60px;
+            color: var(--text-secondary);
+        }
+
+        .empty-state h3 {
+            margin-bottom: 10px;
+            color: var(--text-primary);
+        }
+
+        .play-btn {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 14px 30px;
+            background: linear-gradient(135deg, var(--accent-cyan), var(--accent-purple));
+            color: var(--bg-dark);
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 700;
+            font-family: 'Orbitron', sans-serif;
+            transition: all 0.3s;
+        }
+
+        .play-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(0, 243, 255, 0.3);
+        }
+
+        /* Achievements */
+        .achievements-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 16px;
+            margin-top: 20px;
+        }
+
+        .achievement {
+            background: var(--bg-card);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            padding: 16px;
+            text-align: center;
+            opacity: 0.4;
+            filter: grayscale(1);
+            transition: all 0.3s;
+        }
+
+        .achievement.unlocked {
+            opacity: 1;
+            filter: none;
+            border-color: rgba(0, 243, 255, 0.3);
+        }
+
+        .achievement-icon {
+            font-size: 32px;
+            margin-bottom: 8px;
+        }
+
+        .achievement-name {
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        @media (max-width: 768px) {
+            .navbar {
+                padding: 12px 20px;
+                flex-wrap: wrap;
+                gap: 10px;
+            }
+
+            .nav-links {
+                gap: 15px;
+            }
+
+            .profile-header {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            table {
+                font-size: 14px;
+            }
+
+            th,
+            td {
+                padding: 10px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar">
+        <a href="/" class="nav-logo">GLYPHICA</a>
+        <div class="nav-links">
+            <a href="/">ИГРА</a>
+            <a href="/profile" class="active">ПРОФИЛЬ</a>
+            <a href="/leaderboard">РЕЙТИНГ</a>
+        </div>
+        <div class="nav-user">
+            <span class="nav-username" id="nav-username">-</span>
+            <button class="logout-btn" id="logout-btn">ВЫХОД</button>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div id="loading" class="loading">
+            <div class="loading-spinner"></div>
+            <p>Загрузка профиля...</p>
+        </div>
+
+        <div id="profile-content" style="display: none;">
+            <div class="profile-header">
+                <div class="avatar" id="avatar">?</div>
+                <div class="profile-info">
+                    <h1 id="username">-</h1>
+                    <p id="member-since">Участник с -</p>
+                </div>
+            </div>
+
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-value" id="stat-games">0</div>
+                    <div class="stat-label">ВСЕГО ИГР</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="stat-score">0</div>
+                    <div class="stat-label">ЛУЧШИЙ СЧЁТ</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="stat-wave">0</div>
+                    <div class="stat-label">МАКС ВОЛНА</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="stat-wpm">0</div>
+                    <div class="stat-label">СРЕДНИЙ WPM</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="stat-accuracy">0%</div>
+                    <div class="stat-label">ТОЧНОСТЬ</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="stat-kills">0</div>
+                    <div class="stat-label">УБИТО ВРАГОВ</div>
+                </div>
+            </div>
+
+            <h2 class="section-title">📊 ПОСЛЕДНИЕ ИГРЫ</h2>
+            <div class="games-table">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>РЕЖИМ</th>
+                            <th>СЧЁТ</th>
+                            <th>ВОЛНА</th>
+                            <th>WPM</th>
+                            <th>ТОЧНОСТЬ</th>
+                            <th>ДАТА</th>
+                        </tr>
+                    </thead>
+                    <tbody id="games-tbody">
+                        <tr>
+                            <td colspan="6" class="empty-state">
+                                <h3>Нет игр</h3>
+                                <p>Сыграй свою первую игру!</p>
+                                <a href="/" class="play-btn">ИГРАТЬ</a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <h2 class="section-title" style="margin-top: 40px;">🏆 ДОСТИЖЕНИЯ</h2>
+            <div class="achievements-grid" id="achievements-grid">
+                <!-- Achievements will be loaded here -->
+            </div>
+        </div>
+
+        <div id="not-logged-in" style="display: none;">
+            <div class="empty-state">
+                <h3>Войдите в аккаунт</h3>
+                <p>Чтобы видеть свою статистику, нужно войти</p>
+                <a href="/login" class="play-btn">ВОЙТИ</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const ACHIEVEMENTS = [
+            { id: 'first_blood', name: 'Первая кровь', icon: '🗡️', desc: 'Убить первого врага' },
+            { id: 'wave_5', name: 'Волна 5', icon: '🌊', desc: 'Достичь волны 5' },
+            { id: 'wave_10', name: 'Волна 10', icon: '🌊', desc: 'Достичь волны 10' },
+            { id: 'score_1000', name: '1000 очков', icon: '⭐', desc: 'Набрать 1000 очков' },
+            { id: 'score_5000', name: '5000 очков', icon: '🌟', desc: 'Набрать 5000 очков' },
+            { id: 'combo_10', name: 'Комбо x10', icon: '🔥', desc: 'Достичь комбо x10' },
+            { id: 'boss_slayer', name: 'Убийца боссов', icon: '👹', desc: 'Убить босса' },
+            { id: 'speed_demon', name: 'Демон скорости', icon: '⚡', desc: 'WPM > 80' },
+            { id: 'perfectionist', name: 'Перфекционист', icon: '💯', desc: '100% точность в игре' },
+            { id: 'survivor', name: 'Выживший', icon: '💪', desc: 'Пережить 50 врагов' }
+        ];
+
+        let currentUser = null;
+
+        async function init() {
+            // Check auth
+            const authRes = await fetch('/api/auth/me');
+            const authData = await authRes.json();
+
+            if (!authData.loggedIn) {
+                document.getElementById('loading').style.display = 'none';
+                document.getElementById('not-logged-in').style.display = 'block';
+                return;
+            }
+
+            currentUser = authData.user;
+            document.getElementById('nav-username').textContent = currentUser.username;
+
+            // Load profile
+            try {
+                const profileRes = await fetch('/api/stats/profile');
+                const profileData = await profileRes.json();
+
+                displayProfile(profileData);
+            } catch (err) {
+                console.error('Failed to load profile:', err);
+            }
+        }
+
+        function displayProfile(data) {
+            const { stats, recentGames, achievements } = data;
+
+            document.getElementById('loading').style.display = 'none';
+            document.getElementById('profile-content').style.display = 'block';
+
+            // Header
+            document.getElementById('avatar').textContent = currentUser.username.charAt(0).toUpperCase();
+            document.getElementById('username').textContent = currentUser.username;
+
+            // Stats
+            document.getElementById('stat-games').textContent = stats.totalGames || 0;
+            document.getElementById('stat-score').textContent = formatNumber(stats.bestScore || 0);
+            document.getElementById('stat-wave').textContent = stats.bestWave || 0;
+            document.getElementById('stat-wpm').textContent = Math.round(stats.avgWpm || 0);
+            document.getElementById('stat-accuracy').textContent = Math.round(stats.avgAccuracy || 0) + '%';
+            document.getElementById('stat-kills').textContent = formatNumber(stats.totalKills || 0);
+
+            // Recent games
+            const tbody = document.getElementById('games-tbody');
+            if (recentGames && recentGames.length > 0) {
+                tbody.innerHTML = recentGames.map(game => `
+                    <tr>
+                        <td><span class="mode-badge mode-${game.mode}">${game.mode}</span></td>
+                        <td>${formatNumber(game.score)}</td>
+                        <td>${game.wave}</td>
+                        <td>${game.wpm}</td>
+                        <td>${game.accuracy}%</td>
+                        <td>${formatDate(game.played_at)}</td>
+                    </tr>
+                `).join('');
+            }
+
+            // Achievements
+            const unlockedIds = achievements.map(a => a.achievement_id);
+            const grid = document.getElementById('achievements-grid');
+            grid.innerHTML = ACHIEVEMENTS.map(ach => `
+                <div class="achievement ${unlockedIds.includes(ach.id) ? 'unlocked' : ''}" title="${ach.desc}">
+                    <div class="achievement-icon">${ach.icon}</div>
+                    <div class="achievement-name">${ach.name}</div>
+                </div>
+            `).join('');
+        }
+
+        function formatNumber(num) {
+            if (num >= 1000000) return (num / 1000000).toFixed(1) + 'M';
+            if (num >= 1000) return (num / 1000).toFixed(1) + 'K';
+            return num.toString();
+        }
+
+        function formatDate(dateStr) {
+            const date = new Date(dateStr);
+            return date.toLocaleDateString('ru-RU', {
+                day: '2-digit',
+                month: '2-digit',
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+        }
+
+        // Logout
+        document.getElementById('logout-btn').addEventListener('click', async () => {
+            await fetch('/api/auth/logout', { method: 'POST' });
+            window.location.href = '/login';
+        });
+
+        init();
+    </script>
+</body>
+
+</html>

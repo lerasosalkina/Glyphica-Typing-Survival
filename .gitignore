@@ -1,0 +1,25 @@
+# Dependencies
+node_modules/
+
+# Data files (user data, games, etc.)
+data/
+
+# Logs
+*.log
+npm-debug.log*
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+
+# Environment
+.env
+.env.local
+
+# Build artifacts
+dist/
+build/

@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Glyphica - Вход</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --bg-dark: #0a0a0f;
+            --bg-card: rgba(15, 15, 25, 0.95);
+            --accent-cyan: #00f3ff;
+            --accent-pink: #ff2d92;
+            --accent-purple: #bc13fe;
+            --text-primary: #ffffff;
+            --text-secondary: rgba(255, 255, 255, 0.6);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Rajdhani', sans-serif;
+            background: var(--bg-dark);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-image:
+                radial-gradient(ellipse at 20% 80%, rgba(188, 19, 254, 0.1) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 20%, rgba(0, 243, 255, 0.1) 0%, transparent 50%);
+        }
+
+        .container {
+            width: 100%;
+            max-width: 420px;
+            padding: 20px;
+        }
+
+        .logo {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .logo h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 48px;
+            font-weight: 900;
+            background: linear-gradient(135deg, var(--accent-cyan), var(--accent-pink));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 40px rgba(0, 243, 255, 0.3);
+            letter-spacing: 4px;
+        }
+
+        .logo p {
+            color: var(--text-secondary);
+            font-size: 14px;
+            margin-top: 8px;
+            letter-spacing: 2px;
+        }
+
+        .auth-card {
+            background: var(--bg-card);
+            border: 1px solid rgba(0, 243, 255, 0.2);
+            border-radius: 16px;
+            padding: 40px;
+            backdrop-filter: blur(20px);
+        }
+
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+        }
+
+        .tab {
+            flex: 1;
+            padding: 12px;
+            background: transparent;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            color: var(--text-secondary);
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .tab.active {
+            background: linear-gradient(135deg, var(--accent-cyan), var(--accent-purple));
+            border-color: transparent;
+            color: var(--bg-dark);
+        }
+
+        .tab:hover:not(.active) {
+            border-color: var(--accent-cyan);
+            color: var(--accent-cyan);
+        }
+
+        .form {
+            display: none;
+        }
+
+        .form.active {
+            display: block;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        .input-group label {
+            display: block;
+            color: var(--text-secondary);
+            font-size: 14px;
+            margin-bottom: 8px;
+            letter-spacing: 1px;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 14px 16px;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            color: var(--text-primary);
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 16px;
+            transition: all 0.3s;
+        }
+
+        .input-group input:focus {
+            outline: none;
+            border-color: var(--accent-cyan);
+            box-shadow: 0 0 20px rgba(0, 243, 255, 0.2);
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, var(--accent-cyan), var(--accent-purple));
+            border: none;
+            border-radius: 8px;
+            color: var(--bg-dark);
+            font-family: 'Orbitron', sans-serif;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+            letter-spacing: 2px;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(0, 243, 255, 0.3);
+        }
+
+        .submit-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .error-msg {
+            background: rgba(255, 45, 146, 0.1);
+            border: 1px solid var(--accent-pink);
+            color: var(--accent-pink);
+            padding: 12px 16px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-size: 14px;
+            display: none;
+        }
+
+        .error-msg.visible {
+            display: block;
+        }
+
+        .success-msg {
+            background: rgba(0, 243, 255, 0.1);
+            border: 1px solid var(--accent-cyan);
+            color: var(--accent-cyan);
+            padding: 12px 16px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-size: 14px;
+            display: none;
+        }
+
+        .success-msg.visible {
+            display: block;
+        }
+
+        .back-link {
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        .back-link a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 14px;
+            transition: color 0.3s;
+        }
+
+        .back-link a:hover {
+            color: var(--accent-cyan);
+        }
+
+        @keyframes shake {
+
+            0%,
+            100% {
+                transform: translateX(0);
+            }
+
+            25% {
+                transform: translateX(-5px);
+            }
+
+            75% {
+                transform: translateX(5px);
+            }
+        }
+
+        .shake {
+            animation: shake 0.3s ease-in-out;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="logo">
+            <h1>GLYPHICA</h1>
+            <p>TYPING SURVIVAL</p>
+        </div>
+
+        <div class="auth-card">
+            <div class="tabs">
+                <button class="tab active" data-tab="login">ВХОД</button>
+                <button class="tab" data-tab="register">РЕГИСТРАЦИЯ</button>
+            </div>
+
+            <div id="error-msg" class="error-msg"></div>
+            <div id="success-msg" class="success-msg"></div>
+
+            <!-- Login Form -->
+            <form id="login-form" class="form active">
+                <div class="input-group">
+                    <label>ИМЯ ПОЛЬЗОВАТЕЛЯ</label>
+                    <input type="text" name="username" required autocomplete="username">
+                </div>
+                <div class="input-group">
+                    <label>ПАРОЛЬ</label>
+                    <input type="password" name="password" required autocomplete="current-password">
+                </div>
+                <button type="submit" class="submit-btn">ВОЙТИ</button>
+            </form>
+
+            <!-- Register Form -->
+            <form id="register-form" class="form">
+                <div class="input-group">
+                    <label>ИМЯ ПОЛЬЗОВАТЕЛЯ (3-20 символов)</label>
+                    <input type="text" name="username" required minlength="3" maxlength="20" autocomplete="username">
+                </div>
+                <div class="input-group">
+                    <label>ПАРОЛЬ (минимум 4 символа)</label>
+                    <input type="password" name="password" required minlength="4" autocomplete="new-password">
+                </div>
+                <div class="input-group">
+                    <label>ПОДТВЕРДИТЕ ПАРОЛЬ</label>
+                    <input type="password" name="confirmPassword" required minlength="4" autocomplete="new-password">
+                </div>
+                <button type="submit" class="submit-btn">СОЗДАТЬ АККАУНТ</button>
+            </form>
+
+            <div class="back-link">
+                <a href="/">← Вернуться к игре</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const tabs = document.querySelectorAll('.tab');
+        const forms = document.querySelectorAll('.form');
+        const errorMsg = document.getElementById('error-msg');
+        const successMsg = document.getElementById('success-msg');
+
+        // Tab switching
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                tabs.forEach(t => t.classList.remove('active'));
+                forms.forEach(f => f.classList.remove('active'));
+
+                tab.classList.add('active');
+                document.getElementById(`${tab.dataset.tab}-form`).classList.add('active');
+
+                hideMessages();
+            });
+        });
+
+        function showError(msg) {
+            errorMsg.textContent = msg;
+            errorMsg.classList.add('visible');
+            successMsg.classList.remove('visible');
+            document.querySelector('.auth-card').classList.add('shake');
+            setTimeout(() => document.querySelector('.auth-card').classList.remove('shake'), 300);
+        }
+
+        function showSuccess(msg) {
+            successMsg.textContent = msg;
+            successMsg.classList.add('visible');
+            errorMsg.classList.remove('visible');
+        }
+
+        function hideMessages() {
+            errorMsg.classList.remove('visible');
+            successMsg.classList.remove('visible');
+        }
+
+        // Login
+        document.getElementById('login-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const form = e.target;
+            const btn = form.querySelector('button');
+            btn.disabled = true;
+            btn.textContent = 'ВХОД...';
+
+            try {
+                const res = await fetch('/api/auth/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        username: form.username.value,
+                        password: form.password.value
+                    })
+                });
+
+                const data = await res.json();
+
+                if (res.ok) {
+                    showSuccess('Успешный вход!');
+                    setTimeout(() => window.location.href = '/', 500);
+                } else {
+                    showError(data.error || 'Ошибка входа');
+                }
+            } catch (err) {
+                showError('Ошибка сети');
+            } finally {
+                btn.disabled = false;
+                btn.textContent = 'ВОЙТИ';
+            }
+        });
+
+        // Register
+        document.getElementById('register-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const form = e.target;
+            const btn = form.querySelector('button');
+
+            if (form.password.value !== form.confirmPassword.value) {
+                showError('Пароли не совпадают');
+                return;
+            }
+
+            btn.disabled = true;
+            btn.textContent = 'СОЗДАНИЕ...';
+
+            try {
+                const res = await fetch('/api/auth/register', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        username: form.username.value,
+                        password: form.password.value
+                    })
+                });
+
+                const data = await res.json();
+
+                if (res.ok) {
+                    showSuccess('Аккаунт создан!');
+                    setTimeout(() => window.location.href = '/', 500);
+                } else {
+                    showError(data.error || 'Ошибка регистрации');
+                }
+            } catch (err) {
+                showError('Ошибка сети');
+            } finally {
+                btn.disabled = false;
+                btn.textContent = 'СОЗДАТЬ АККАУНТ';
+            }
+        });
+
+        // Check if already logged in
+        fetch('/api/auth/me')
+            .then(res => res.json())
+            .then(data => {
+                if (data.loggedIn) {
+                    window.location.href = '/';
+                }
+            });
+    </script>
+</body>
+
+</html>

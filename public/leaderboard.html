@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Glyphica - Рейтинг</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --bg-dark: #0a0a0f;
+            --bg-card: rgba(15, 15, 25, 0.95);
+            --accent-cyan: #00f3ff;
+            --accent-pink: #ff2d92;
+            --accent-purple: #bc13fe;
+            --accent-gold: #ffd700;
+            --accent-silver: #c0c0c0;
+            --accent-bronze: #cd7f32;
+            --text-primary: #ffffff;
+            --text-secondary: rgba(255, 255, 255, 0.6);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Rajdhani', sans-serif;
+            background: var(--bg-dark);
+            min-height: 100vh;
+            color: var(--text-primary);
+            background-image:
+                radial-gradient(ellipse at 20% 80%, rgba(188, 19, 254, 0.08) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 20%, rgba(0, 243, 255, 0.08) 0%, transparent 50%);
+        }
+
+        .navbar {
+            background: var(--bg-card);
+            border-bottom: 1px solid rgba(0, 243, 255, 0.2);
+            padding: 16px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(20px);
+        }
+
+        .nav-logo {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 24px;
+            font-weight: 900;
+            background: linear-gradient(135deg, var(--accent-cyan), var(--accent-pink));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+        }
+
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: 600;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: var(--accent-cyan);
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .page-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 36px;
+            text-align: center;
+            margin-bottom: 10px;
+            background: linear-gradient(135deg, var(--accent-gold), var(--accent-pink));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .page-subtitle {
+            text-align: center;
+            color: var(--text-secondary);
+            margin-bottom: 40px;
+        }
+
+        .mode-tabs {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 30px;
+        }
+
+        .mode-tab {
+            padding: 12px 24px;
+            background: var(--bg-card);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            color: var(--text-secondary);
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-transform: uppercase;
+        }
+
+        .mode-tab.active {
+            background: linear-gradient(135deg, var(--accent-cyan), var(--accent-purple));
+            border-color: transparent;
+            color: var(--bg-dark);
+        }
+
+        .mode-tab:hover:not(.active) {
+            border-color: var(--accent-cyan);
+        }
+
+        .leaderboard-table {
+            background: var(--bg-card);
+            border: 1px solid rgba(0, 243, 255, 0.1);
+            border-radius: 16px;
+            overflow: hidden;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th {
+            background: rgba(0, 243, 255, 0.1);
+            padding: 18px;
+            text-align: left;
+            font-weight: 600;
+            color: var(--accent-cyan);
+            letter-spacing: 1px;
+            font-size: 14px;
+        }
+
+        td {
+            padding: 16px 18px;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        tr:hover td {
+            background: rgba(0, 243, 255, 0.02);
+        }
+
+        .rank {
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 700;
+            font-size: 18px;
+            width: 60px;
+        }
+
+        .rank-1 {
+            color: var(--accent-gold);
+        }
+
+        .rank-2 {
+            color: var(--accent-silver);
+        }
+
+        .rank-3 {
+            color: var(--accent-bronze);
+        }
+
+        .player-name {
+            font-weight: 600;
+            font-size: 16px;
+        }
+
+        .player-name a {
+            color: var(--text-primary);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .player-name a:hover {
+            color: var(--accent-cyan);
+        }
+
+        .score-cell {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 18px;
+            color: var(--accent-cyan);
+        }
+
+        .loading {
+            text-align: center;
+            padding: 60px;
+            color: var(--text-secondary);
+        }
+
+        .loading-spinner {
+            width: 50px;
+            height: 50px;
+            border: 3px solid rgba(0, 243, 255, 0.2);
+            border-top-color: var(--accent-cyan);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 60px;
+            color: var(--text-secondary);
+        }
+
+        .trophy {
+            font-size: 24px;
+            margin-right: 8px;
+        }
+
+        @media (max-width: 768px) {
+            .navbar {
+                padding: 12px 20px;
+            }
+
+            .nav-links {
+                gap: 15px;
+            }
+
+            .page-title {
+                font-size: 28px;
+            }
+
+            table {
+                font-size: 14px;
+            }
+
+            th,
+            td {
+                padding: 12px;
+            }
+
+            .mode-tabs {
+                flex-wrap: wrap;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar">
+        <a href="/" class="nav-logo">GLYPHICA</a>
+        <div class="nav-links">
+            <a href="/">ИГРА</a>
+            <a href="/profile">ПРОФИЛЬ</a>
+            <a href="/leaderboard" class="active">РЕЙТИНГ</a>
+        </div>
+    </nav>
+
+    <div class="container">
+        <h1 class="page-title">🏆 РЕЙТИНГ</h1>
+        <p class="page-subtitle">Лучшие игроки Glyphica</p>
+
+        <div class="mode-tabs">
+            <button class="mode-tab active" data-mode="classic">Classic</button>
+            <button class="mode-tab" data-mode="time">Time</button>
+            <button class="mode-tab" data-mode="zen">Zen</button>
+            <button class="mode-tab" data-mode="hardcore">Hardcore</button>
+        </div>
+
+        <div id="loading" class="loading">
+            <div class="loading-spinner"></div>
+            <p>Загрузка рейтинга...</p>
+        </div>
+
+        <div class="leaderboard-table" id="leaderboard-container" style="display: none;">
+            <table>
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>ИГРОК</th>
+                        <th>СЧЁТ</th>
+                        <th>ВОЛНА</th>
+                        <th>WPM</th>
+                        <th>ТОЧНОСТЬ</th>
+                    </tr>
+                </thead>
+                <tbody id="leaderboard-tbody">
+                </tbody>
+            </table>
+        </div>
+
+        <div id="empty-state" class="empty-state" style="display: none;">
+            <h3>Пока нет результатов</h3>
+            <p>Будь первым в рейтинге!</p>
+        </div>
+    </div>
+
+    <script>
+        let currentMode = 'classic';
+
+        async function loadLeaderboard(mode) {
+            currentMode = mode;
+
+            document.getElementById('loading').style.display = 'block';
+            document.getElementById('leaderboard-container').style.display = 'none';
+            document.getElementById('empty-state').style.display = 'none';
+
+            try {
+                const res = await fetch(`/api/stats/leaderboard?mode=${mode}`);
+                const data = await res.json();
+
+                document.getElementById('loading').style.display = 'none';
+
+                if (data.length === 0) {
+                    document.getElementById('empty-state').style.display = 'block';
+                    return;
+                }
+
+                document.getElementById('leaderboard-container').style.display = 'block';
+
+                const tbody = document.getElementById('leaderboard-tbody');
+                tbody.innerHTML = data.map((entry, i) => {
+                    const rank = i + 1;
+                    let trophy = '';
+                    if (rank === 1) trophy = '🥇';
+                    else if (rank === 2) trophy = '🥈';
+                    else if (rank === 3) trophy = '🥉';
+
+                    return `
+                        <tr>
+                            <td class="rank rank-${rank}">${trophy}${rank}</td>
+                            <td class="player-name"><a href="/profile/${entry.username}">${entry.username}</a></td>
+                            <td class="score-cell">${formatNumber(entry.score)}</td>
+                            <td>${entry.wave}</td>
+                            <td>${entry.wpm}</td>
+                            <td>${entry.accuracy}%</td>
+                        </tr>
+                    `;
+                }).join('');
+            } catch (err) {
+                console.error('Failed to load leaderboard:', err);
+                document.getElementById('loading').style.display = 'none';
+                document.getElementById('empty-state').style.display = 'block';
+            }
+        }
+
+        function formatNumber(num) {
+            if (num >= 1000000) return (num / 1000000).toFixed(1) + 'M';
+            if (num >= 1000) return (num / 1000).toFixed(1) + 'K';
+            return num.toString();
+        }
+
+        // Tab switching
+        document.querySelectorAll('.mode-tab').forEach(tab => {
+            tab.addEventListener('click', () => {
+                document.querySelectorAll('.mode-tab').forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+                loadLeaderboard(tab.dataset.mode);
+            });
+        });
+
+        // Initial load
+        loadLeaderboard('classic');
+    </script>
+</body>
+
+</html>
